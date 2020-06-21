@@ -1,0 +1,123 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Rekognition Video Blog'
+Parameters:
+  ApplicationName:
+    Description: Name of the application deploying for the Social Media Analytics
+    Type: String
+    Default: RekognitionVideoBlog
+
+Resources:
+
+  EventMetadataStream:
+    Type: "AWS::Kinesis::Stream"
+    Properties: 
+      Name: !Sub ${ApplicationName}-Stream
+      ShardCount: 1
+
+  SNSTopic:
+    Type: "AWS::SNS::Topic"
+    Properties: 
+      DisplayName: !Sub ${ApplicationName} SNS Topic
+
+  SNSPublishRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          -
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Path: '/'
+      Policies:
+        -
+          PolicyName: lambda-comprehend-policy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              -
+                Effect: Allow
+                Action:
+                    - 'sns:Publish'
+                Resource: !Ref SNSTopic
+              -
+                Effect: Allow
+                Action:
+                    - 'kinesis:GetRecords'
+                    - 'kinesis:GetShardIterator'
+                    - 'kinesis:DescribeStream'
+                    - 'kinesis:ListStreams'
+                Resource: !GetAtt EventMetadataStream.Arn
+              -
+                Effect: Allow
+                Action:
+                    - 'kinesis:ListStreams'
+                Resource: '*'
+
+  RekognitionVideoIAM:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          -
+            Effect: Allow
+            Principal:
+              Service: rekognition.amazonaws.com
+            Action: sts:AssumeRole
+      Path: '/'
+      Policies:
+        -
+          PolicyName: lambda-comprehend-policy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              -
+                Effect: Allow
+                Action:
+                    - 'kinesis:*'
+                Resource: !GetAtt EventMetadataStream.Arn
+              -
+                Effect: Allow
+                Action:
+                    - 'kinesisvideo:*'
+                Resource: '*'
+              -
+                Effect: Allow
+                Action:
+                    - 'rekognition:*'
+                Resource: '*'
+
+  RekognitionVideoLambda: 
+    Type: "AWS::Lambda::Function"
+    Properties: 
+      Environment:
+        Variables:
+          sns: !Ref SNSTopic
+      Handler: "index.handler"
+      Role: !GetAtt SNSPublishRole.Arn
+      Code: 
+        S3Bucket: "us-west-2.serverless-analytics"
+        S3Key: "KinesisVideoRekognitionVideo-blog/Lambda.zip"
+      Runtime: "nodejs10.x"
+      Timeout: "120"
+
+  RekognitionLambdaKinesisMapping:
+    Type: "AWS::Lambda::EventSourceMapping"
+    Properties: 
+      BatchSize: 10
+      Enabled: true
+      EventSourceArn: !GetAtt EventMetadataStream.Arn
+      FunctionName: !GetAtt  RekognitionVideoLambda.Arn
+      StartingPosition: "TRIM_HORIZON"
+
+Outputs:
+  KinesisDataStreamArn:
+    Description: Kinesis Data Stream Arn (used in Stream Processer Input)
+    Value: !GetAtt EventMetadataStream.Arn
+
+  RekognitionVideoIAM:
+    Description: Rekognition Video Processing IAM Arn (used in Stream Processer Input)
+    Value: !GetAtt RekognitionVideoIAM.Arn
