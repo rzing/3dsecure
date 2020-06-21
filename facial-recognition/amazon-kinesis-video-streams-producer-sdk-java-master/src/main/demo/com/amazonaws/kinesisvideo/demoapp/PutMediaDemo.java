@@ -58,7 +58,7 @@ public final class PutMediaDemo {
     private static final String STREAM_NAME = "LiveRekognitionVideoAnalysisBlog";
     private static final String myQueueUrl="https://sqs.us-west-2.amazonaws.com/961853145745/rekognitionqueue";
     /* sample MKV file */
-    private static final String MKV_FILE_PATH = "src/main/resources/data/mkv/vogels_480.mkv";
+    private static final String MKV_FILE_PATH = "src/main/resources/data/mkv/bezos_vogels.mkv";
     final static AmazonSQS sqs = AmazonSQSClientBuilder.defaultClient();
     /* max upload bandwidth */
     private static final long MAX_BANDWIDTH_KBPS = 15 * 1024L;
@@ -76,7 +76,10 @@ public final class PutMediaDemo {
                 .withRegion(DEFAULT_REGION)
                 .build();
         
-		sqs.purgeQueue(new PurgeQueueRequest(myQueueUrl));
+        System.out.println("SENDING THE VIDEO TO KINESIS VIDEO STREAM FOR PROCESSING.........");
+        
+        sqs.purgeQueue(new PurgeQueueRequest(myQueueUrl));
+         Thread.sleep(40000);
 
         /* this is the endpoint returned by GetDataEndpoint API */
         final String dataEndpoint = frontendClient.getDataEndpoint(
@@ -134,10 +137,10 @@ public final class PutMediaDemo {
                    
                     if(messages.isEmpty())
                     {
-                    	System.out.println("user is not authenticated");
+                    	System.out.println("USER IS NOT AUTHENTICATED");
                     }else {
                     	
-                    	System.out.println("user is authenticated");
+                    	System.out.println("USER AUTHENTICATION SUCCESSFUL");
                     }
                    
                     	
