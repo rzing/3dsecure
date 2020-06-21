@@ -1,0 +1,142 @@
+{
+  "metadata": {
+    "schemaVersion": "1.0",
+    "importType": "LEX",
+    "importFormat": "JSON"
+  },
+  "resource": {
+    "name": "VoiceAuthentication",
+    "version": "11",
+    "intents": [
+      {
+        "name": "VoiceAuth",
+        "version": "21",
+        "fulfillmentActivity": {
+          "type": "ReturnIntent"
+        },
+        "sampleUtterances": [
+          "Hi my secret code is {Phrase}",
+          "secret code",
+          "secret phrase",
+          "Secret",
+          "Phrase",
+          "Hi my secret phrase is {Phrase}",
+          "I want to Check Balance",
+          "Withdraw money",
+          "Hi my name is",
+          "My name is"
+        ],
+        "slots": [
+          {
+            "sampleUtterances": [],
+            "slotType": "AMAZON.Musician",
+            "obfuscationSetting": "NONE",
+            "slotConstraint": "Required",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "Please provide your secret Phrase"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 1,
+            "name": "Phrase"
+          }
+        ],
+        "conclusionStatement": {
+          "messages": [
+            {
+              "groupNumber": 1,
+              "contentType": "PlainText",
+              "content": "We are processing your request. We appreciate your patience."
+            }
+          ]
+        }
+      },
+      {
+        "name": "BalanceCheck",
+        "version": "2",
+        "fulfillmentActivity": {
+          "type": "ReturnIntent"
+        },
+        "sampleUtterances": [
+          "balance",
+          "balance info",
+          "balance information",
+          "my account balance",
+          "check my balance",
+          "check my account balance",
+          "what is my account balance",
+          "please help me with my account balance",
+          "please help me with my balance",
+          "get me my account balance"
+        ],
+        "slots": []
+      },
+      {
+        "name": "TalkToAnAgent",
+        "version": "2",
+        "fulfillmentActivity": {
+          "type": "ReturnIntent"
+        },
+        "sampleUtterances": [
+          "yes I would like to talk to an agent",
+          "yes talk to agent",
+          "agent",
+          "talk to agent",
+          "yes"
+        ],
+        "slots": [],
+        "conclusionStatement": {
+          "messages": [
+            {
+              "groupNumber": 1,
+              "contentType": "PlainText",
+              "content": "Please wait. We are redirecting your call to our next available agent."
+            }
+          ]
+        }
+      },
+      {
+        "name": "Hangup",
+        "version": "3",
+        "fulfillmentActivity": {
+          "type": "ReturnIntent"
+        },
+        "sampleUtterances": [
+          "exit",
+          "hangup",
+          "bye",
+          "I am done",
+          "quit",
+          "No"
+        ],
+        "slots": []
+      }
+    ],
+    "voiceId": "Salli",
+    "childDirected": false,
+    "locale": "en-US",
+    "idleSessionTTLInSeconds": 120,
+    "clarificationPrompt": {
+      "messages": [
+        {
+          "contentType": "PlainText",
+          "content": "Sorry, can you please repeat that?"
+        }
+      ],
+      "maxAttempts": 5
+    },
+    "abortStatement": {
+      "messages": [
+        {
+          "contentType": "PlainText",
+          "content": "Sorry, I could not understand. Goodbye."
+        }
+      ]
+    },
+    "detectSentiment": false
+  }
+}
