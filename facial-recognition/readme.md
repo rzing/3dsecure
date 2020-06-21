@@ -1,4 +1,4 @@
-﻿# Steps to follow to run the Kinensis video processor
+﻿# Steps to run the Facial Recognition System
 
 1. Apply the cloudformation script file cf.template from "cloudformation-template" folder in us-west-2 region.
 
