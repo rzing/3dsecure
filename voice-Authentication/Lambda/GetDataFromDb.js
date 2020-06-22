@@ -35,8 +35,10 @@ exports.handler = (event, context, callback) => {
    			console.log("Dynamo DB Phrase value is: "+data.Items[0].phrase);	
 				var phrase = data.Items[0].phrase;
 				var name =  data.Items[0].name;
+				var customerNum= data.Items[0].contactNo;
 				var customerId =  data.Items[0].customerId;
 				var balance =  data.Items[0].balance;
+				console.log("customerNum from DynamoDB is: "+customerNum);
 				if(phrase_input.toString() === phrase){
 				    console.log("Matched");
 				    message = "User Authenticated";
@@ -45,7 +47,7 @@ exports.handler = (event, context, callback) => {
 				    console.log("Not Matched");
 				    message = "User Authentication Failed.";
 				}
-				callback(null, buildResponse(true,name,phrase,customerId,message,balance,datetime))
+				callback(null, buildResponse(true,name,phrase,customerId,message,balance,datetime,customerNum))
    			} 
 			else {
     			console.log("Required Data not found");
@@ -56,7 +58,7 @@ exports.handler = (event, context, callback) => {
 
 };
 
-function buildResponse(isSuccess,name,phrase,customerId,message,balance,datetime) {
+function buildResponse(isSuccess,name,phrase,customerId,message,balance,datetime,customerNum) {
  	if (isSuccess) {
   		return { 
 			name: name,
@@ -65,6 +67,7 @@ function buildResponse(isSuccess,name,phrase,customerId,message,balance,datetime
 			message: message,
 			balance:balance,
 			datetime:datetime,
+			customerNum:customerNum,
 			lambdaResult: "Success"
 		};
  	} 
