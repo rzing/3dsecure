@@ -1,0 +1,32 @@
+{
+  "metadata": {
+    "schemaVersion": "1.0",
+    "importType": "LEX",
+    "importFormat": "JSON"
+  },
+  "resource": {
+    "name": "TalkToAnAgent",
+    "version": "3",
+    "fulfillmentActivity": {
+      "type": "ReturnIntent"
+    },
+    "sampleUtterances": [
+      "yes I would like to talk to an agent",
+      "yes talk to agent",
+      "agent",
+      "talk to agent",
+      "yes"
+    ],
+    "slots": [],
+    "conclusionStatement": {
+      "messages": [
+        {
+          "groupNumber": 1,
+          "contentType": "PlainText",
+          "content": "Please wait. We are redirecting your call to our next available agent.We appreciate your patience. Thank you"
+        }
+      ]
+    },
+    "slotTypes": []
+  }
+}

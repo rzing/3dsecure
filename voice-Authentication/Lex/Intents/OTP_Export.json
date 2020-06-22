@@ -1,0 +1,40 @@
+{
+  "metadata": {
+    "schemaVersion": "1.0",
+    "importType": "LEX",
+    "importFormat": "JSON"
+  },
+  "resource": {
+    "name": "OTP",
+    "version": "4",
+    "fulfillmentActivity": {
+      "type": "ReturnIntent"
+    },
+    "sampleUtterances": [
+      "yes received",
+      "yes I have received the otp",
+      "otp received",
+      "received otp"
+    ],
+    "slots": [
+      {
+        "sampleUtterances": [],
+        "slotType": "AMAZON.NUMBER",
+        "obfuscationSetting": "NONE",
+        "slotConstraint": "Required",
+        "valueElicitationPrompt": {
+          "messages": [
+            {
+              "contentType": "PlainText",
+              "content": "Please Say the OTP received"
+            }
+          ],
+          "maxAttempts": 2
+        },
+        "priority": 1,
+        "name": "otpslot"
+      }
+    ],
+    "slotTypes": []
+  }
+}

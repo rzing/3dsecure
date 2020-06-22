@@ -1,0 +1,24 @@
+{
+  "metadata": {
+    "schemaVersion": "1.0",
+    "importType": "LEX",
+    "importFormat": "JSON"
+  },
+  "resource": {
+    "name": "Hangup",
+    "version": "3",
+    "fulfillmentActivity": {
+      "type": "ReturnIntent"
+    },
+    "sampleUtterances": [
+      "exit",
+      "hangup",
+      "bye",
+      "I am done",
+      "quit",
+      "No"
+    ],
+    "slots": [],
+    "slotTypes": []
+  }
+}
