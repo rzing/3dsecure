@@ -2,11 +2,11 @@
 Multi Dimensional Security Model using AWS. 
 ### Details
 
-##Facial Recognition
+Facial Recognition
 
 `facial-recognition`: Contains source code for Kinesis Video Stream Producer and Cloudformation Template to spin up the infrastructure.   `facial-recognition\readme.md` Refer for detailed explanation.
 
-##Voice-Authentication 
+Voice-Authentication 
 
 `voice-Authentication\Connect`: Contains AWS Connect contact flow json file, used to connect to customer once the facial recognition is done.  
 `voice-Authentication\Lex`: Contains all AWS Lex details and code for Slot Type, Intents and Bots.  
